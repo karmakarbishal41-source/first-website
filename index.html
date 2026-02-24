@@ -3,44 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Security Breach Detection</title>
-<link rel="stylesheet" href="style.css">
+
+<title>Bishal Karmakar | Cyber Security</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+  margin:0;
+  font-family:Poppins, sans-serif;
+  background:#0d1117;
+  color:#e6edf3;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+}
+
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 30px;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
+  position:sticky;
+  top:0;
+}
+
+nav h2{
+  color:#00ff9c;
+  font-family:Orbitron;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  margin-left:20px;
+}
+
+section{
+  padding:80px 20px;
+  text-align:center;
+}
+
+.hero h1{
+  font-size:38px;
+  color:#00ff9c;
+  font-family:Orbitron;
+}
+
+.typing{
+  color:#00ff9c;
+  font-family:monospace;
+  margin-top:10px;
+}
+
+.btn{
+  padding:12px 25px;
+  border:1px solid #00ff9c;
+  color:#00ff9c;
+  background:transparent;
+  cursor:pointer;
+  margin-top:20px;
+}
+
+.btn:hover{
+  background:#00ff9c;
+  color:black;
+}
+
+.cards{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:10px;
+  width:250px;
+  backdrop-filter:blur(10px);
+}
+
+input{
+  padding:10px;
+  width:200px;
+  margin:10px;
+}
+
+footer{
+  padding:30px;
+  background:black;
+}
+
+</style>
 </head>
 
 <body>
 
 <canvas id="matrix"></canvas>
 
-<div class="container">
+<nav>
+  <h2>Bishal</h2>
+  <div>
+    <a href="#">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#tools">Tools</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
 
-<h1>SECURITY SCAN INITIALIZING...</h1>
+<section class="hero">
+  <h1>Cyber Security Enthusiast</h1>
+  <div class="typing" id="typing"></div>
+  <button class="btn" onclick="scrollToSection('tools')">Explore Tools</button>
+</section>
 
-<p id="deviceInfo"></p>
+<section id="about">
+  <h2>About Me</h2>
+  <p>
+  Hi, I am Bishal Karmakar. I am passionate about Cyber Security, Ethical Hacking and AI.
+  I enjoy learning technologies and building useful tools.
+  </p>
+</section>
 
-<button onclick="startScan()">Start Security Scan</button>
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="cards">
+    <div class="card">Linux & Termux</div>
+    <div class="card">Networking Basics</div>
+    <div class="card">Python</div>
+    <div class="card">Web Development</div>
+    <div class="card">AI Tools</div>
+  </div>
+</section>
 
-<br><br>
+<section id="tools">
+  <h2>Tools</h2>
 
-<a href="login.html">
-  <button>Secure Login</button>
-</a>
+  <div class="card">
+    <h3>Password Generator</h3>
+    <input type="number" id="length" placeholder="Length">
+    <br>
+    <button class="btn" onclick="generatePassword()">Generate</button>
+    <p id="password"></p>
+  </div>
 
-<div class="progressBox">
-  <div id="progressBar"></div>
-</div>
+  <div class="card">
+    <h3>Security Scan Simulation</h3>
+    <button class="btn" onclick="startScan()">Start Scan</button>
+    <p id="scanResult"></p>
+  </div>
 
-<div id="status"></div>
+</section>
 
-<div id="terminal"></div>
-<div id="crack"></div>
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email: karmakarbishal41@gmail.com</p>
+  <button class="btn" onclick="window.open('https://github.com/')">
+    Visit GitHub
+  </button>
+</section>
 
-<p class="disclaimer">
-⚠ This is a cybersecurity awareness simulation — not real hacking.
-</p>
+<footer>
+  © 2026 Bishal Karmakar | Cyber Portfolio
+</footer>
 
-</div>
+<script>
 
-<script src="script.js"></script>
+/* Matrix Background */
+
+var canvas = document.getElementById("matrix");
+var ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+var letters = "01";
+letters = letters.split("");
+
+var fontSize = 14;
+var columns = canvas.width/fontSize;
+var drops = [];
+
+for(var x = 0; x < columns; x++)
+drops[x] = 1;
+
+function draw(){
+ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+ctx.fillStyle = "#00ff9c";
+ctx.font = fontSize + "px monospace";
+
+for(var i = 0; i < drops.length; i++){
+var text = letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+drops[i] = 0;
+
+drops[i]++;
+}
+}
+
+setInterval(draw, 33);
+
+/* Typing Effect */
+
+const text = "Ethical Hacking | AI | Development";
+let i = 0;
+
+function typing(){
+if(i < text.length){
+document.getElementById("typing").innerHTML += text.charAt(i);
+i++;
+setTimeout(typing, 50);
+}
+}
+
+typing();
+
+/* Password Generator */
+
+function generatePassword(){
+let len = document.getElementById("length").value;
+let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#";
+let pass = "";
+
+for(let i=0;i<len;i++){
+pass += chars.charAt(Math.floor(Math.random()*chars.length));
+}
+
+document.getElementById("password").innerText = pass;
+}
+
+/* Scan Simulation */
+
+function startScan(){
+let result = document.getElementById("scanResult");
+result.innerText = "Scanning...";
+
+setTimeout(()=>{
+result.innerText = "No Threats Found ✓";
+},3000);
+}
+
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView();
+}
+
+</script>
 
 </body>
 </html>
