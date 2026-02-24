@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Tools</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Free AI Tool</h1>
+
+<textarea id="inputText" placeholder="Type something..."></textarea>
+<br><br>
+
+<button onclick="generate()">Generate</button>
+
+<p id="output"></p>
+
+<script>
+function generate(){
+let text = document.getElementById("inputText").value;
+
+document.getElementById("output").innerText =
+"AI Result: " + text + " 🚀";
+}
+</script>
+
+</body>
+</html>
