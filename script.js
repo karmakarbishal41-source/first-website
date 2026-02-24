@@ -1,3 +1,1 @@
-function showMessage(){
-  alert("Website working perfectly ✅");
-}
+console.log("Portfolio Loaded");
