@@ -1,40 +1,43 @@
-body{
-margin:0;
-font-family:Arial;
-background:#0b1120;
-color:white;
-text-align:center;
+function signup(){
+
+let user = document.getElementById("newUser").value;
+let email = document.getElementById("newEmail").value;
+let pass = document.getElementById("newPass").value;
+
+localStorage.setItem("user", user);
+localStorage.setItem("email", email);
+localStorage.setItem("pass", pass);
+
+alert("Account created!");
+window.location="login.html";
+
 }
 
-header{
-background:#111;
-padding:15px;
+function login(){
+
+let user = document.getElementById("username").value;
+let pass = document.getElementById("password").value;
+
+let savedUser = localStorage.getItem("user");
+let savedPass = localStorage.getItem("pass");
+
+if(user==savedUser && pass==savedPass){
+localStorage.setItem("loggedIn","true");
+window.location="dashboard.html";
+}
+else{
+alert("Wrong login");
 }
 
-nav a{
-color:white;
-margin:10px;
-text-decoration:none;
 }
 
-.hero{
-margin-top:80px;
+function logout(){
+localStorage.removeItem("loggedIn");
+window.location="login.html";
 }
 
-.btn{
-background:#00ffcc;
-padding:10px 20px;
-color:black;
-text-decoration:none;
-border-radius:5px;
+if(window.location.pathname.includes("dashboard.html")){
+if(localStorage.getItem("loggedIn")!="true"){
+window.location="login.html";
 }
-
-.login-box{
-margin-top:100px;
-}
-
-input{
-display:block;
-margin:10px auto;
-padding:10px;
 }

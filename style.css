@@ -29,7 +29,7 @@ text-decoration:none;
 border-radius:5px;
 }
 
-.login-box{
+.box{
 margin-top:100px;
 }
 
@@ -37,4 +37,23 @@ input{
 display:block;
 margin:10px auto;
 padding:10px;
+width:250px;
 }
+
+button{
+padding:10px 20px;
+background:#00ffcc;
+border:none;
+cursor:pointer;
+}
+
+.card{
+background:#111;
+margin:20px;
+padding:20px;
+border-radius:10px;
+}
+
+.locked{
+opacity:0.5;
+}content://com.termux.documents/tree/%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fmywebsite::/data/data/com.termux/files/home/mywebsite/style.csscontent://com.termux.documents/tree/%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2Fmywebsite::/data/data/com.termux/files/home/mywebsite/style.css
