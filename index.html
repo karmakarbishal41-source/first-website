@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Secure Login</title>
+<title>Cyber System Login</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -27,7 +27,7 @@ color:#00ff9c;
 
 <body>
 
-<h2>Cyber System Access</h2>
+<h2>Cyber Secure Access</h2>
 
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
@@ -52,28 +52,17 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
 function register(){
-
-auth.createUserWithEmailAndPassword(
-email.value,
-password.value
-)
-.then(()=>msg.innerText="Registered Successfully")
+auth.createUserWithEmailAndPassword(email.value,password.value)
+.then(()=>msg.innerText="Registered")
 .catch(e=>msg.innerText=e.message);
-
 }
 
 function login(){
-
-auth.signInWithEmailAndPassword(
-email.value,
-password.value
-)
+auth.signInWithEmailAndPassword(email.value,password.value)
 .then(()=>window.location="dashboard.html")
 .catch(e=>msg.innerText=e.message);
-
 }
 
 </script>
-
 </body>
 </html>

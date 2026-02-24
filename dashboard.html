@@ -1,73 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Dashboard</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <style>
-
-body{
-margin:0;
-background:#0d1117;
-color:#00ff9c;
-font-family:monospace;
-display:flex;
-}
-
-.sidebar{
-width:220px;
-background:black;
-height:100vh;
-padding:20px;
-}
-
-.sidebar button{
-display:block;
-width:100%;
-margin:10px 0;
-padding:10px;
-background:black;
-border:1px solid #00ff9c;
-color:#00ff9c;
-cursor:pointer;
-}
-
-.main{
-flex:1;
-padding:20px;
-}
-
-.card{
-border:1px solid #00ff9c;
-padding:20px;
-margin:20px 0;
-}
-
-input{
-padding:10px;
-background:black;
-border:1px solid #00ff9c;
-color:#00ff9c;
-}
-
+body{margin:0;background:#0d1117;color:#00ff9c;font-family:monospace;display:flex;}
+.sidebar{width:220px;background:black;height:100vh;padding:20px;}
+.sidebar button{display:block;width:100%;margin:10px 0;padding:10px;background:black;border:1px solid #00ff9c;color:#00ff9c;}
+.main{flex:1;padding:20px;}
+.card{border:1px solid #00ff9c;padding:20px;margin:20px 0;}
+input{padding:10px;background:black;border:1px solid #00ff9c;color:#00ff9c;}
 </style>
 
 </head>
 <body>
 
 <div class="sidebar">
-
 <h3>Cyber System</h3>
-
 <button onclick="show('terminal')">Terminal</button>
 <button onclick="show('profile')">Profile</button>
-<button onclick="show('ai')">AI Assistant</button>
+<button onclick="show('ai')">AI</button>
+<button onclick="admin()">Admin</button>
 <button onclick="logout()">Logout</button>
-
 </div>
 
 <div class="main">
@@ -75,49 +32,46 @@ color:#00ff9c;
 <div id="terminal" class="card">
 <h2>Advanced Terminal</h2>
 <div id="output"></div>
-<input id="cmd" placeholder="Enter command">
+<input id="cmd">
 <button onclick="run()">Run</button>
 </div>
 
 <div id="profile" class="card" style="display:none">
-<h2>User Profile</h2>
+<h2>Profile</h2>
 <p id="user"></p>
 </div>
 
 <div id="ai" class="card" style="display:none">
-
-<h2>AI Cyber Assistant</h2>
-<input id="question" placeholder="Ask something">
+<h2>AI Assistant</h2>
+<input id="question">
 <button onclick="askAI()">Ask</button>
 <p id="answer"></p>
-
 </div>
 
 </div>
 
 <script>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB3ofBLYop3CIOKcE4PaFOyo3pGa4Aa8QM",
-  authDomain: "cyberdashboard-4ee87.firebaseapp.com",
-  projectId: "cyberdashboard-4ee87",
-  appId: "1:133424629804:web:6457a1eb1282cc88ada989"
+const firebaseConfig={
+apiKey:"AIzaSyB3ofBLYop3CIOKcE4PaFOyo3pGa4Aa8QM",
+authDomain:"cyberdashboard-4ee87.firebaseapp.com",
+projectId:"cyberdashboard-4ee87",
+appId:"1:133424629804:web:6457a1eb1282cc88ada989"
 };
 
 firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.firestore();
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-/* Auth Check */
+let currentUser;
 
 auth.onAuthStateChanged(user=>{
 
 if(!user) location="index.html";
 
-document.getElementById("user").innerText="Email: "+user.email;
+currentUser=user;
 
-/* Log user login */
+userDiv.innerText="Email: "+user.email;
 
 db.collection("logs").add({
 email:user.email,
@@ -127,51 +81,55 @@ time:Date.now()
 
 });
 
-/* Navigation */
-
 function show(id){
-
-document.getElementById("terminal").style.display="none";
-document.getElementById("profile").style.display="none";
-document.getElementById("ai").style.display="none";
-
+terminal.style.display="none";
+profile.style.display="none";
+ai.style.display="none";
 document.getElementById(id).style.display="block";
-
 }
-
-/* Logout */
 
 function logout(){
 auth.signOut();
 location="index.html";
 }
 
+function admin(){
+if(currentUser.email==="admin@gmail.com"){
+location="admin.html";
+}else{
+alert("Not Admin");
+}
+}
+
 /* Terminal */
 
-function run(){
+async function run(){
 
-let cmd=document.getElementById("cmd").value;
-let out=document.getElementById("output");
+let cmd=cmdInput.value;
+let out=output;
 
-if(cmd==="help"){
-out.innerHTML+="Commands: help, whoami, date, scan<br>";
-}
-else if(cmd==="whoami"){
-out.innerHTML+="Cyber User<br>";
-}
-else if(cmd==="date"){
-out.innerHTML+=new Date()+"<br>";
-}
-else if(cmd==="scan"){
-out.innerHTML+="Scanning system... No threats found ✔<br>";
-}
-else{
-out.innerHTML+="Command not found<br>";
-}
+if(cmd==="help") out.innerHTML+="help whoami date scan hash ip<br>";
+else if(cmd==="whoami") out.innerHTML+="Cyber User<br>";
+else if(cmd==="date") out.innerHTML+=new Date()+"<br>";
+else if(cmd==="scan") out.innerHTML+="System Secure ✔<br>";
+else if(cmd==="hash"){
+
+let msg="hello";
+let buf=new TextEncoder().encode(msg);
+let hash=await crypto.subtle.digest("SHA-256",buf);
+out.innerHTML+=Array.from(new Uint8Array(hash)).map(b=>b.toString(16)).join("")+"<br>";
 
 }
+else if(cmd==="ip"){
 
-/* AI */
+let res=await fetch("https://api.ipify.org?format=json");
+let d=await res.json();
+out.innerHTML+="IP: "+d.ip+"<br>";
+
+}
+else out.innerHTML+="Unknown<br>";
+
+}
 
 async function askAI(){
 
