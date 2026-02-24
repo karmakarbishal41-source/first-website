@@ -33,11 +33,9 @@ db.collection("logs")
 .orderBy("time","desc")
 .get()
 .then(snapshot=>{
-
 snapshot.forEach(doc=>{
 logs.innerHTML+=JSON.stringify(doc.data())+"<br><br>";
 });
-
 });
 
 </script>

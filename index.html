@@ -2,32 +2,19 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber System Login</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <style>
-body{
-background:black;
-color:#00ff9c;
-font-family:monospace;
-text-align:center;
-padding-top:100px;
-}
-input,button{
-padding:10px;
-margin:10px;
-background:black;
-border:1px solid #00ff9c;
-color:#00ff9c;
-}
+body{background:black;color:#00ff9c;font-family:monospace;text-align:center;padding-top:100px;}
+input,button{padding:10px;margin:10px;background:black;border:1px solid #00ff9c;color:#00ff9c;}
 </style>
 </head>
 
 <body>
 
-<h2>Cyber Secure Access</h2>
+<h2>Cyber System Access</h2>
 
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
@@ -41,15 +28,15 @@ color:#00ff9c;
 
 <script>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB3ofBLYop3CIOKcE4PaFOyo3pGa4Aa8QM",
-  authDomain: "cyberdashboard-4ee87.firebaseapp.com",
-  projectId: "cyberdashboard-4ee87",
-  appId: "1:133424629804:web:6457a1eb1282cc88ada989"
+const firebaseConfig={
+apiKey:"AIzaSyB3ofBLYop3CIOKcE4PaFOyo3pGa4Aa8QM",
+authDomain:"cyberdashboard-4ee87.firebaseapp.com",
+projectId:"cyberdashboard-4ee87",
+appId:"1:133424629804:web:6457a1eb1282cc88ada989"
 };
 
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+const auth=firebase.auth();
 
 function register(){
 auth.createUserWithEmailAndPassword(email.value,password.value)
@@ -64,5 +51,6 @@ auth.signInWithEmailAndPassword(email.value,password.value)
 }
 
 </script>
+
 </body>
 </html>

@@ -2,29 +2,76 @@
 <html>
 <head>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Dashboard</title>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <style>
-body{margin:0;background:#0d1117;color:#00ff9c;font-family:monospace;display:flex;}
-.sidebar{width:220px;background:black;height:100vh;padding:20px;}
-.sidebar button{display:block;width:100%;margin:10px 0;padding:10px;background:black;border:1px solid #00ff9c;color:#00ff9c;}
-.main{flex:1;padding:20px;}
-.card{border:1px solid #00ff9c;padding:20px;margin:20px 0;}
-input{padding:10px;background:black;border:1px solid #00ff9c;color:#00ff9c;}
+
+body{
+margin:0;
+background:#0d1117;
+color:#00ff9c;
+font-family:monospace;
+display:flex;
+}
+
+.sidebar{
+width:220px;
+background:black;
+height:100vh;
+padding:20px;
+}
+
+.sidebar button{
+display:block;
+width:100%;
+margin:10px 0;
+padding:10px;
+background:black;
+border:1px solid #00ff9c;
+color:#00ff9c;
+cursor:pointer;
+}
+
+.main{
+flex:1;
+padding:20px;
+}
+
+.card{
+border:1px solid #00ff9c;
+padding:20px;
+margin:20px 0;
+}
+
+input{
+padding:10px;
+background:black;
+border:1px solid #00ff9c;
+color:#00ff9c;
+width:250px;
+}
+
 </style>
 
 </head>
 <body>
 
 <div class="sidebar">
-<h3>Cyber System</h3>
+
+<h3>Cyber Dashboard</h3>
+
 <button onclick="show('terminal')">Terminal</button>
+<button onclick="show('scanner')">File Scanner</button>
+<button onclick="show('ai')">AI Assistant</button>
 <button onclick="show('profile')">Profile</button>
-<button onclick="show('ai')">AI</button>
 <button onclick="admin()">Admin</button>
 <button onclick="logout()">Logout</button>
+
 </div>
 
 <div class="main">
@@ -32,25 +79,34 @@ input{padding:10px;background:black;border:1px solid #00ff9c;color:#00ff9c;}
 <div id="terminal" class="card">
 <h2>Advanced Terminal</h2>
 <div id="output"></div>
-<input id="cmd">
+<input id="cmd" placeholder="Enter command">
 <button onclick="run()">Run</button>
 </div>
 
-<div id="profile" class="card" style="display:none">
-<h2>Profile</h2>
-<p id="user"></p>
+<div id="scanner" class="card" style="display:none">
+<h2>File Scanner</h2>
+<input type="file" id="file">
+<button onclick="scanFile()">Scan</button>
+<pre id="scanResult"></pre>
 </div>
 
 <div id="ai" class="card" style="display:none">
-<h2>AI Assistant</h2>
-<input id="question">
+<h2>Gemini AI Assistant</h2>
+<input id="question" placeholder="Ask something">
 <button onclick="askAI()">Ask</button>
-<p id="answer"></p>
+<pre id="answer"></pre>
+</div>
+
+<div id="profile" class="card" style="display:none">
+<h2>User Profile</h2>
+<p id="user"></p>
 </div>
 
 </div>
 
 <script>
+
+/* Firebase Config */
 
 const firebaseConfig={
 apiKey:"AIzaSyB3ofBLYop3CIOKcE4PaFOyo3pGa4Aa8QM",
@@ -60,10 +116,13 @@ appId:"1:133424629804:web:6457a1eb1282cc88ada989"
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const auth=firebase.auth();
 const db=firebase.firestore();
 
 let currentUser;
+
+/* Auth Check */
 
 auth.onAuthStateChanged(user=>{
 
@@ -71,7 +130,9 @@ if(!user) location="index.html";
 
 currentUser=user;
 
-userDiv.innerText="Email: "+user.email;
+document.getElementById("user").innerText="Email: "+user.email;
+
+/* Save log */
 
 db.collection("logs").add({
 email:user.email,
@@ -81,62 +142,139 @@ time:Date.now()
 
 });
 
+/* Navigation */
+
 function show(id){
+
 terminal.style.display="none";
-profile.style.display="none";
+scanner.style.display="none";
 ai.style.display="none";
+profile.style.display="none";
+
 document.getElementById(id).style.display="block";
+
 }
+
+/* Logout */
 
 function logout(){
 auth.signOut();
 location="index.html";
 }
 
+/* Admin */
+
 function admin(){
+
 if(currentUser.email==="admin@gmail.com"){
 location="admin.html";
 }else{
 alert("Not Admin");
 }
+
 }
 
-/* Terminal */
+/* Terminal Commands */
 
 async function run(){
 
-let cmd=cmdInput.value;
-let out=output;
+let cmdValue=document.getElementById("cmd").value;
+let out=document.getElementById("output");
 
-if(cmd==="help") out.innerHTML+="help whoami date scan hash ip<br>";
-else if(cmd==="whoami") out.innerHTML+="Cyber User<br>";
-else if(cmd==="date") out.innerHTML+=new Date()+"<br>";
-else if(cmd==="scan") out.innerHTML+="System Secure ✔<br>";
-else if(cmd==="hash"){
-
-let msg="hello";
-let buf=new TextEncoder().encode(msg);
-let hash=await crypto.subtle.digest("SHA-256",buf);
-out.innerHTML+=Array.from(new Uint8Array(hash)).map(b=>b.toString(16)).join("")+"<br>";
-
+if(cmdValue==="help"){
+out.innerHTML+="Commands: help whoami date scan hash ip encrypt clear<br>";
 }
-else if(cmd==="ip"){
+else if(cmdValue==="whoami"){
+out.innerHTML+="Cyber User<br>";
+}
+else if(cmdValue==="date"){
+out.innerHTML+=new Date()+"<br>";
+}
+else if(cmdValue==="scan"){
+out.innerHTML+="System Secure ✔<br>";
+}
+else if(cmdValue==="ip"){
 
 let res=await fetch("https://api.ipify.org?format=json");
 let d=await res.json();
+
 out.innerHTML+="IP: "+d.ip+"<br>";
 
 }
-else out.innerHTML+="Unknown<br>";
+else if(cmdValue==="encrypt"){
+
+let text="hello";
+let encoded=btoa(text);
+
+out.innerHTML+=encoded+"<br>";
+
+}
+else if(cmdValue==="clear"){
+out.innerHTML="";
+}
+else{
+out.innerHTML+="Unknown command<br>";
+}
 
 }
 
+/* File Scanner */
+
+async function scanFile(){
+
+let file=document.getElementById("file").files[0];
+
+if(!file) return;
+
+let buffer=await file.arrayBuffer();
+
+let hash=await crypto.subtle.digest("SHA-256",buffer);
+
+let hex=Array.from(new Uint8Array(hash))
+.map(b=>b.toString(16).padStart(2,"0")).join("");
+
+document.getElementById("scanResult").innerText=
+"File: "+file.name+
+"\nSize: "+file.size+" bytes"+
+"\nSHA256: "+hex+
+"\nRisk Level: Low";
+
+}
+
+/* Gemini AI */
+
 async function askAI(){
 
-let res=await fetch("https://api.quotable.io/random");
-let data=await res.json();
+let question=document.getElementById("question").value;
 
-answer.innerText=data.content;
+/* 🔑 PASTE YOUR GEMINI KEY HERE */
+let API_KEY="AIzaSyAG7_MPAgrgNMrrNBCppPjwGd2ISm1xM7o";
+
+let response=await fetch(
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+contents:[
+{
+parts:[
+{
+text:"You are a cybersecurity expert. Answer: "+question
+}
+]
+}
+]
+})
+});
+
+let data=await response.json();
+
+let text=data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+
+document.getElementById("answer").innerText=text;
 
 }
 
