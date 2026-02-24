@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+<h1>Secure Login</h1>
+
+<input id="username" type="text" placeholder="Username"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
+
+<button onclick="breach()">Login</button>
+
+<p id="loginStatus"></p>
+
+<br><br>
+<a href="index.html">⬅ Back</a>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+function breach(){
+
+  const status = document.getElementById("loginStatus");
+
+  status.innerHTML = "Connecting to secure server...";
+
+  setTimeout(()=>{
+    status.innerHTML = "Login Successful ✔";
+  },2000);
+
+  setTimeout(()=>{
+    status.innerHTML =
+    "⚠ Security Breach Detected! Credentials compromised.";
+
+    if (navigator.vibrate) {
+      navigator.vibrate([500,200,500]);
+    }
+
+    alert("Warning: Account security compromised!");
+
+  },4000);
+
+}
+</script>
+
+</body>
+</html>

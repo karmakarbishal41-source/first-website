@@ -3,58 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bishal Karmakar | Portfolio</title>
+<title>Security Breach Detection</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-  <h1>Bishal Karmakar</h1>
-  <p>AI Tools • Website Developer • Freelancer</p>
-  <a href="#contact" class="btn">Hire Me</a>
-</header>
+<canvas id="matrix"></canvas>
 
-<section class="about">
-  <h2>About Me</h2>
-  <p>I create modern websites, AI tools and automation solutions for businesses and individuals. 
-  My goal is to help clients grow online with affordable and powerful technology.</p>
-</section>
+<div class="container">
 
-<section class="skills">
-  <h2>Skills</h2>
-  <div class="cards">
-    <div class="card">Website Development</div>
-    <div class="card">AI Tools Setup</div>
-    <div class="card">Automation</div>
-    <div class="card">GitHub & Hosting</div>
-  </div>
-</section>
+<h1>SECURITY SCAN INITIALIZING...</h1>
 
-<section class="services">
-  <h2>Services</h2>
-  <div class="cards">
-    <div class="card">Business Website</div>
-    <div class="card">Portfolio Website</div>
-    <div class="card">Landing Page</div>
-    <div class="card">AI Website</div>
-  </div>
-</section>
+<p id="deviceInfo"></p>
 
-<section class="projects">
-  <h2>Projects</h2>
-  <p>More projects coming soon...</p>
-</section>
+<button onclick="startScan()">Start Security Scan</button>
 
-<section id="contact" class="contact">
-  <h2>Contact Me</h2>
-  <p>Email: karmakarbshal41@gmail.com</p>
-  <p>WhatsApp: +91 6294959336</p>
-</section>
+<br><br>
 
-<footer>
-  <p>© 2026 Bishal Karmakar</p>
-</footer>
+<a href="login.html">
+  <button>Secure Login</button>
+</a>
+
+<div class="progressBox">
+  <div id="progressBar"></div>
+</div>
+
+<div id="status"></div>
+
+<div id="terminal"></div>
+<div id="crack"></div>
+
+<p class="disclaimer">
+⚠ This is a cybersecurity awareness simulation — not real hacking.
+</p>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
