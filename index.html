@@ -1,56 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bishal AI Solutions</title>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-
-<style>
-body{background:black;color:#00ff9c;font-family:monospace;text-align:center;padding-top:100px;}
-input,button{padding:10px;margin:10px;background:black;border:1px solid #00ff9c;color:#00ff9c;}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h2>Cyber System Access</h2>
+<header>
+<h1>Bishal AI Solutions</h1>
+<nav>
+<a href="index.html">Home</a>
+<a href="login.html">Login</a>
+<a href="admin.html">Admin</a>
+</nav>
+</header>
 
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
+<section class="hero">
+<h2>Welcome to AI Dashboard</h2>
+<p>Free AI tools and automation services</p>
 
-<br>
+<a href="login.html" class="btn">Get Started</a>
+</section>
 
-<button onclick="register()">Register</button>
-<button onclick="login()">Login</button>
-
-<p id="msg"></p>
-
-<script>
-
-const firebaseConfig={
-apiKey:"AIzaSyB3ofBLYop3CIOKcE4PaFOyo3pGa4Aa8QM",
-authDomain:"cyberdashboard-4ee87.firebaseapp.com",
-projectId:"cyberdashboard-4ee87",
-appId:"1:133424629804:web:6457a1eb1282cc88ada989"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth=firebase.auth();
-
-function register(){
-auth.createUserWithEmailAndPassword(email.value,password.value)
-.then(()=>msg.innerText="Registered")
-.catch(e=>msg.innerText=e.message);
-}
-
-function login(){
-auth.signInWithEmailAndPassword(email.value,password.value)
-.then(()=>window.location="dashboard.html")
-.catch(e=>msg.innerText=e.message);
-}
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>

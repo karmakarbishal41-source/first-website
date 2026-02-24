@@ -1,44 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-<style>
-body{background:black;color:#00ff9c;font-family:monospace;padding:20px;}
-</style>
-
+<title>Admin Panel</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h2>Admin Panel</h2>
-
-<div id="logs"></div>
-
-<script>
-
-const firebaseConfig={
-apiKey:"AIzaSyB3ofBLYop3CIOKcE4PaFOyo3pGa4Aa8QM",
-authDomain:"cyberdashboard-4ee87.firebaseapp.com",
-projectId:"cyberdashboard-4ee87",
-appId:"1:133424629804:web:6457a1eb1282cc88ada989"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
-
-db.collection("logs")
-.orderBy("time","desc")
-.get()
-.then(snapshot=>{
-snapshot.forEach(doc=>{
-logs.innerHTML+=JSON.stringify(doc.data())+"<br><br>";
-});
-});
-
-</script>
+<h1>Admin Panel</h1>
+<p>Only admin access</p>
 
 </body>
 </html>
