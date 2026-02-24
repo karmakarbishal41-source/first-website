@@ -78,3 +78,49 @@ drops[i]++;
 
 setInterval(draw, 33);
 }
+function sendMsg(){
+
+let input = document.getElementById("userInput").value;
+let chatBox = document.getElementById("chatBox");
+
+if(!input) return;
+
+chatBox.innerHTML += "<p><b>You:</b> " + input + "</p>";
+
+let reply = getBotReply(input);
+
+chatBox.innerHTML += "<p><b>Bot:</b> " + reply + "</p>";
+
+document.getElementById("userInput").value="";
+}
+
+
+function getBotReply(msg){
+
+msg = msg.toLowerCase();
+
+if(msg.includes("hello")) return "Hello 👋 How can I help?";
+if(msg.includes("ai")) return "AI tools available in dashboard.";
+if(msg.includes("price")) return "Premium coming soon.";
+if(msg.includes("name")) return "I am Bishal AI Bot 🤖";
+
+return "Sorry, I don't understand. Try another question.";
+}
+// show user in admin
+if(window.location.pathname.includes("admin.html")){
+
+document.getElementById("aUser").innerText =
+localStorage.getItem("user");
+
+document.getElementById("aEmail").innerText =
+localStorage.getItem("email");
+
+}
+
+
+// clear users
+function clearData(){
+localStorage.clear();
+alert("User data deleted");
+location.reload();
+}
